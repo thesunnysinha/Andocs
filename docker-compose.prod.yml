@@ -39,6 +39,22 @@ services:
     networks:
       - andocs-network
 
+  frontend:
+    build: ./services/frontend
+    container_name: andocs_frontend
+    volumes:
+      - andocs_frontend:/code/frontend/
+    ports:
+      - 3000:3000
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    depends_on:
+      - backend
+    networks:
+      - andocs-network
+
   celeryworker:
     build: ./services/backend
     command: python manage.py runceleryworker
@@ -81,6 +97,14 @@ volumes:
     driver_opts:
       type: none
       device: ./services/backend
+      o: bind
+  
+  andocs_frontend:
+    driver: local
+    name: andocs_backend_frontend
+    driver_opts:
+      type: none
+      device: ./services/frontend
       o: bind
 
 networks:
