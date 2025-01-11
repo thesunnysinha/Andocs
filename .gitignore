@@ -1,0 +1,17 @@
+# Ignore Django migrations
+migrations/
+
+# Ignore Python bytecode
+__pycache__/
+
+# Ignore media files
+media/
+
+# Ignore log files
+logfile.txt
+schedulerLogfile.txt
+
+# Ignore environment variable files
+.env
+
+node_modules/
