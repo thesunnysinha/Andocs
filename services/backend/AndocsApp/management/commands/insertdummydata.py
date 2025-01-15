@@ -72,6 +72,9 @@ class Command(BaseCommand):
             raise CommandError('Error creating superuser.')
 
     def insert_dummy_data(self):
+        if Product.objects.count() > 0:
+            self.stdout.write(self.style.WARNING('Dummy data already exists. Skipping...'))
+            return
         for i in range(1, 51):
             self.create_dummy_product(
                 title=f'Dummy Product {i}',

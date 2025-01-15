@@ -1,4 +1,3 @@
-
 services:
   db:
     image: postgres:16
@@ -24,18 +23,29 @@ services:
 
   backend:
     build: ./services/backend
+    command: python manage.py rungunicorn
     container_name: andocs_backend
-    restart: always
-    command: python manage.py runapplication
+    volumes:
+      - andocs_backend:/app
+      - static_volume:/app/staticfiles
     env_file:
       - ./env/backend.env
-    volumes:
-      - andocs_backend:/app/
-    ports:
-      - 8000:8000
     depends_on:
       - db
       - redis
+    networks:
+      - andocs-network
+
+  nginx:
+    image: nginx:latest
+    container_name: andocs_nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - static_volume:/app/staticfiles
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
     networks:
       - andocs-network
 
@@ -69,6 +79,19 @@ services:
     networks:
       - andocs-network
 
+  frontend:
+    build: ./services/frontend
+    container_name: andocs_frontend
+    volumes:
+      - andocs_frontend:/code/frontend/
+    ports:
+      - 3000:3000
+    profiles:
+      - dev
+    depends_on:
+      - backend
+    networks:
+      - andocs-network
 
 volumes:
   postgres_data:
@@ -83,8 +106,17 @@ volumes:
       device: ./services/backend
       o: bind
 
+  static_volume:
+    driver: local
+
+  andocs_frontend:
+    driver: local
+    name: andocs_backend_frontend
+    driver_opts:
+      type: none
+      device: ./services/frontend
+      o: bind
+
 networks:
   andocs-network:
     driver: bridge
-    
-
