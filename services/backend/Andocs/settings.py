@@ -15,7 +15,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = eval(os.getenv("DEBUG","True"))
 
-ALLOWED_HOSTS = ['andocs.sunnysinha.space']
+ALLOWED_HOSTS = ['andocs.sunnysinha.space','andocs.vercel.app']
 
 
 # Application definition
