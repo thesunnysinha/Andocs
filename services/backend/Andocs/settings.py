@@ -149,7 +149,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'account.User'
 
 CORS_ALLOWED_ORIGINS = [
-    'http://https://andocs.vercel.app/',
+    'https://andocs.vercel.app/',
 ]
 
 PASSWORD_RESET_TIMEOUT = 900
