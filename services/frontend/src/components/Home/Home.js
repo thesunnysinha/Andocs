@@ -15,7 +15,7 @@ import {
 import { useFetchProductsQuery } from "../../services/fetchProduct";
 import { openSnackbar } from "../../features/snackbarSlice";
 import { useDispatch } from "react-redux";
-import { API_BASE_URL } from "./apiConfig";
+import { API_BASE_URL } from "../../services/apiConfig";
 
 const Home = () => {
   const dispatch = useDispatch();
