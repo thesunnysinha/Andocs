@@ -15,6 +15,7 @@ import {
 import { useFetchProductsQuery } from "../../services/fetchProduct";
 import { openSnackbar } from "../../features/snackbarSlice";
 import { useDispatch } from "react-redux";
+import { API_BASE_URL } from "./apiConfig";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -64,7 +65,7 @@ const Home = () => {
                     <CardMedia
                       component="img"
                       height="auto"
-                      image={`http://127.0.0.1:8000${product.product_image}`}
+                      image={`${API_BASE_URL}${product.product_image}`}
                       alt={product.title}
                     />
                   </Link>
