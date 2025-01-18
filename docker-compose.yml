@@ -23,7 +23,7 @@ services:
 
   backend:
     build: ./services/backend
-    command: python manage.py rungunicorn
+    command: python manage.py runapplication
     container_name: andocs_backend
     volumes:
       - andocs_backend:/app
@@ -58,7 +58,7 @@ services:
 
   celeryworker:
     build: ./services/backend
-    command: python manage.py runceleryworker
+    command: python manage.py runapplication --celery
     container_name: andocs_celery_worker
     volumes:
       - andocs_backend:/app
@@ -73,7 +73,7 @@ services:
 
   celerybeat:
     build: ./services/backend
-    command: python manage.py runcelerybeat
+    command: python manage.py runapplication --celery-beat
     container_name: andocs_celery_beat
     volumes:
       - andocs_backend:/app

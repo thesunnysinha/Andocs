@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'account',
-    'AndocsApp',
+    'common',
     'product',
     'cart',
     'address',
