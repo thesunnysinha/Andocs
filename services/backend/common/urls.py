@@ -1,7 +1,5 @@
-from .views import *
 from django.urls import path,include
-from django.conf import settings
-from django.conf.urls.static import static
+from common.views import CarouselListView
 from product import urls as product_urls
 from cart import urls as cart_urls
 from productRecommendation import urls as productRecommendation_urls
@@ -9,9 +7,11 @@ from address import urls as address_urls
 from order import urls as order_urls
 from comment import urls as comment_urls
 from wishlist import urls as wishlist_urls
+from account import urls as account_urls
 
 urlpatterns = [
-        path('carousel/',CarouselListView.as_view(),name='carousel'),
+     path('carousel/',CarouselListView.as_view(),name='carousel'),
+     path('user/', include(account_urls)),
 ]
 
 # Address 
@@ -48,5 +48,3 @@ urlpatterns += [
 urlpatterns += [
      path('',include(wishlist_urls)),   
 ]
-
-urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

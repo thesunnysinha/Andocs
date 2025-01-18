@@ -5,9 +5,6 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
-STATIC_DIR = os.path.join(BASE_DIR,'static')
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -46,6 +43,7 @@ INSTALLED_APPS = [
     'celery',
     'django_celery_results',
     'django_celery_beat',
+    'drf_yasg',
 
 ]
 
@@ -132,7 +130,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+STATIC_DIR = os.path.join(BASE_DIR,'static')
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
