@@ -4,8 +4,8 @@ let CHANNEL_URL;
 
 if (env === "prod") {
   // Production environment
-  API_BASE_URL = `https://172.105.49.244:443`;
-  CHANNEL_URL = `172.105.49.244:443`;
+  API_BASE_URL = `https://andocs.sunnysinha.space`;
+  CHANNEL_URL = `andocs.sunnysinha.space`;
 } else {
     // Local environment
     API_BASE_URL = `http://127.0.0.1:8000`;
