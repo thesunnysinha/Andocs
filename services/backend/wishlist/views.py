@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -10,18 +9,20 @@ from .serializers import UserWishlistProductSerializer,AddProductToWishlistSeria
 class UserWishlistListView(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated]
-    def get(self,request,format=None):
-        queryset = Wishlist.objects.filter(user=request.user)
-        products = WishlistProduct.objects.filter(wishlist__in=queryset)
-        product_serializer = UserWishlistProductSerializer(products, many=True)
-        count = 0
-        for item in product_serializer.data:
-            count+=1
-        data = {
-            'products': product_serializer.data,
-            'wishlist_total_quantity': count,
-        }
-        return Response(data,status=status.HTTP_200_OK)
+
+    def get(self, request, format=None):
+        try:
+            queryset = Wishlist.objects.filter(user=request.user)
+            products = WishlistProduct.objects.filter(wishlist__in=queryset)
+            products_count = products.count()
+            product_serializer = UserWishlistProductSerializer(products, many=True)
+            data = {
+                'products': product_serializer.data,
+                'wishlist_total_quantity': products_count,
+            }
+            return Response(data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class AddProductToWishlistView(APIView):
     renderer_classes = [UserRenderer]

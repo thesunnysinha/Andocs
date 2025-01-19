@@ -15,6 +15,8 @@ DEBUG = eval(os.getenv("DEBUG","True"))
 # ALLOWED_HOSTS = ['andocs.sunnysinha.space','andocs.vercel.app']
 ALLOWED_HOSTS = ['*']
 
+ENVIRONMENT = "docker"
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -82,9 +84,6 @@ ASGI_APPLICATION = 'Andocs.asgi.application'
 
 
 # Database
-
-ENVIRONMENT = "docker"
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -151,6 +150,7 @@ AUTH_USER_MODEL = 'account.User'
 
 CORS_ALLOWED_ORIGINS = [
     'https://andocs.vercel.app',
+    'http://localhost:3000',
 ]
 
 PASSWORD_RESET_TIMEOUT = 900

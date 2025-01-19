@@ -17,7 +17,7 @@ const carouselData = [
   },
   {
     image: slider3,
-    caption: "",
+    caption: "Special Offers",
   },
 ];
 
@@ -43,63 +43,91 @@ const Carousel = () => {
   };
 
   return (
-    <Box position="relative">
+    <Box position="relative" height={400} width="100%" overflow="hidden">
+      {/* Full-Screen Background Image for Carousel Section */}
       <Box
+        position="absolute"
+        top={0}
+        left={0}
+        width="100%"
+        height="100%"
         display="flex"
-        alignItems="center"
         justifyContent="center"
-        height={500}
-        bgcolor={theme.palette.white}
+        alignItems="center"
+        bgcolor="rgba(0, 0, 0, 0.4)" // Darker overlay for better readability
+        transition="all 0.5s ease"
       >
         <img
           src={carouselData[activeIndex].image}
           alt={carouselData[activeIndex].caption}
-          style={{ maxWidth: "100%", maxHeight: "100%" }}
+          style={{
+            objectFit: "cover", // Ensures the image covers the area completely
+            width: "100%",
+            height: "100%",
+            borderRadius: "15px", // Rounded corners for a modern look
+            transition: "all 0.7s ease-in-out", // Smooth transition between images
+          }}
         />
       </Box>
+
+      {/* Carousel Content */}
       <Box
         position="absolute"
-        bottom={20}
-        left={0}
-        right={0}
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        color={theme.palette.common.black}
-        opacity={0.7}
+        top="50%"
+        left="50%"
+        transform="translate(-50%, -50%)"
+        textAlign="center"
+        color="white"
+        zIndex={2}
+        sx={{
+          opacity: 0.9,
+          textShadow: "2px 2px 5px rgba(0, 0, 0, 0.7)", // Adds text shadow for better visibility
+        }}
       >
-        <Button>
-          <Typography variant="h6">
-            {carouselData[activeIndex].caption}
-          </Typography>
+        <Typography variant="h4" fontWeight="bold" sx={{ mb: 2 }}>
+          {carouselData[activeIndex].caption || "Welcome to Our Store"}
+        </Typography>
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: theme.palette.primary.main,
+            borderRadius: "30px", // Rounded button for a modern look
+            padding: "12px 24px",
+            "&:hover": { backgroundColor: theme.palette.primary.dark },
+            boxShadow: 2, // Subtle shadow for the button
+          }}
+        >
+          Shop Now
         </Button>
       </Box>
-      <Box
-        position="absolute"
-        top={0}
-        bottom={0}
-        left={0}
-        display="flex"
-        alignItems="center"
-      >
-        <IconButton onClick={handlePrevClick} disabled={activeIndex === 0}>
-          <ArrowBackIos />
+
+      {/* Navigation Arrows */}
+      <Box position="absolute" top="50%" left={20} zIndex={3}>
+        <IconButton
+          onClick={handlePrevClick}
+          sx={{
+            color: "white",
+            padding: 2,
+            borderRadius: "50%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.7)" },
+          }}
+        >
+          <ArrowBackIos fontSize="large" />
         </IconButton>
       </Box>
-      <Box
-        position="absolute"
-        top={0}
-        bottom={0}
-        right={0}
-        display="flex"
-        alignItems="center"
-      >
+      <Box position="absolute" top="50%" right={20} zIndex={3}>
         <IconButton
           onClick={handleNextClick}
-          disabled={activeIndex === carouselData.length - 1}
+          sx={{
+            color: "white",
+            padding: 2,
+            borderRadius: "50%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.7)" },
+          }}
         >
-          <ArrowForwardIos />
+          <ArrowForwardIos fontSize="large" />
         </IconButton>
       </Box>
     </Box>

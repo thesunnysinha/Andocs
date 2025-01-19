@@ -7,68 +7,83 @@ import { CssBaseline } from "@mui/material";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import SnackBar from "./Snackbar";
 
+// Styled Components
 const LayoutWrapper = styled.div`
-  background-size: cover;
+  background: #fafafa; /* Light background color */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  font-family: 'Roboto', sans-serif; /* Clean font */
 `;
 
 const PageWrapper = styled.div`
   position: relative;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: #666666 #f0f0f0; /* Track color and thumb color */
+  scrollbar-color: #888 #f1f1f1; /* Darker thumb, lighter track */
+  padding-bottom: 60px; /* Ensure space for footer */
 
   &::-webkit-scrollbar {
-    width: 10px;
+    width: 12px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #666666;
+    background-color: #888;
+    border-radius: 6px;
   }
 
   &::-webkit-scrollbar-track {
-    background-color: #f0f0f0;
+    background-color: #f1f1f1;
+    border-radius: 6px;
   }
 
   .page-enter {
-    opacity: 0;
+    transform: translateX(100%);
   }
+
   .page-enter-active {
-    opacity: 1;
-    transition: opacity 300ms ease-in-out;
+    transform: translateX(0);
+    transition: transform 300ms ease-out;
   }
+
   .page-exit {
-    opacity: 1;
+    transform: translateX(0);
   }
+
   .page-exit-active {
-    opacity: 0;
-    transition: opacity 300ms ease-in-out;
+    transform: translateX(-100%);
+    transition: transform 300ms ease-in;
   }
 `;
 
 const Layout = () => {
   return (
-    <>
-      <LayoutWrapper>
-        <div className="sticky top-0 z-99">
-          <SnackBar />
-        </div>
-        <CssBaseline />
+    <LayoutWrapper>
+      <CssBaseline />
+      {/* Navbar */}
+      <div className="sticky top-0 z-10">
         <Navbar />
-        <TransitionGroup>
-          <CSSTransition classNames="page" timeout={300}>
-            <PageWrapper>
-              <div style={{ marginTop: "80px" }}>
-                <Outlet />
-              </div>
-            </PageWrapper>
-          </CSSTransition>
-        </TransitionGroup>
-      </LayoutWrapper>
+      </div>
+
+      {/* Snackbar */}
+      <div className="sticky top-0 z-20">
+        <SnackBar />
+      </div>
+
+      {/* Main Content Area with Page Transitions */}
+      <TransitionGroup>
+        <CSSTransition classNames="page" timeout={300}>
+          <PageWrapper>
+            <div style={{ marginTop: "80px" }}>
+              <Outlet />
+            </div>
+          </PageWrapper>
+        </CSSTransition>
+      </TransitionGroup>
+
+      {/* Footer */}
       <Footer />
-    </>
+    </LayoutWrapper>
   );
 };
 

@@ -3,6 +3,7 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Layout from "./components/Layout/Layout";
+import Loader from "./components/Layout/Loader";
 
 // Lazy-loaded components for code splitting
 const Home = lazy(() => import("./components/Home/Home"));
@@ -25,8 +26,8 @@ const ProductDetail = lazy(() =>
 const Wishlist = lazy(() => import("./components/Wishlist/Wishlist"));
 const Orders = lazy(() => import("./components/Orders/Orders"));
 const ChangePassword = lazy(() => import("./components/Auth/ChangePassword"));
-const Cosmetics = lazy(() =>
-  import("./components/Products/Cosmetics/Cosmetics")
+const Products = lazy(() =>
+  import("./components/Products/Products")
 );
 
 // PrivateRoute component for handling private routes
@@ -66,12 +67,12 @@ function App() {
   return (
     <ErrorBoundary>
       <BrowserRouter>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader/>}>
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
               <Route path="login" element={<LoginSignup />} />
-              <Route path="products" element={<Cosmetics />} />
+              <Route path="products" element={<Products />} />
               <Route path="aboutus" element={<Aboutus />} />
               <Route path="contactus" element={<Contactus />} />
               <Route path="team" element={<Team />} />

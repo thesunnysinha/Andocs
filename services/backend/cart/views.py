@@ -21,7 +21,7 @@ class UserCartListView(APIView):
         data = {
             'products': product_serializer.data,
             'total_quantity': total_quantity,
-            'total_price': float(total_price)
+            'total_price': round(float(total_price), 2)
         }
         return Response(data,status=status.HTTP_200_OK)
 

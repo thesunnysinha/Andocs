@@ -3,6 +3,9 @@ services:
     image: postgres:16
     container_name: andocs_db
     restart: always
+    profiles:
+      - dev
+      - default
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
@@ -16,6 +19,9 @@ services:
     image: redis:latest
     container_name: andocs_redis
     restart: always
+    profiles:
+      - dev
+      - default
     ports:
       - "6379:6379"
     networks:
@@ -25,9 +31,13 @@ services:
     build: ./services/backend
     command: python manage.py runapplication
     container_name: andocs_backend
+    profiles:
+      - dev
+      - default
     volumes:
-      - andocs_backend:/app
+      - ./services/backend:/app
       - static_volume:/app/staticfiles
+      - media_volume:/app/media
     env_file:
       - ./env/backend.env
     depends_on:
@@ -36,32 +46,15 @@ services:
     networks:
       - andocs-network
 
-  nginx:
-    image: nginx:latest
-    container_name: andocs_nginx
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - static_volume:/app/staticfiles
-      - ./secrets/nginx/nginx-selfsigned.crt:/etc/ssl/certs/nginx-selfsigned.crt
-      - ./secrets/nginx/nginx-selfsigned.key:/etc/ssl/private/nginx-selfsigned.key
-    ports:
-      - "80:80"
-      - "443:443"
-    depends_on:
-      - backend
-    networks:
-      - andocs-network
-    environment:
-      - SSL_CERT_FILE=/etc/ssl/certs/nginx-selfsigned.crt
-      - SSL_KEY_FILE=/etc/ssl/private/nginx-selfsigned.key
-    restart: always
-
   celeryworker:
     build: ./services/backend
     command: python manage.py runapplication --celery
     container_name: andocs_celery_worker
+    profiles:
+      - dev
+      - default
     volumes:
-      - andocs_backend:/app
+      - ./services/backend:/app
     env_file:
       - ./env/backend.env
     depends_on:
@@ -76,9 +69,12 @@ services:
     command: python manage.py runapplication --celery-beat
     container_name: andocs_celery_beat
     volumes:
-      - andocs_backend:/app
+      - ./services/backend:/app
     env_file:
       - ./env/backend.env
+    profiles:
+      - dev
+      - default
     depends_on:
       - backend
       - db
@@ -89,40 +85,51 @@ services:
   frontend:
     build: ./services/frontend
     container_name: andocs_frontend
+    restart: always
     volumes:
-      - andocs_frontend:/code/frontend/
+      - ./services/frontend:/app
     ports:
       - 3000:3000
     profiles:
       - dev
-    depends_on:
-      - backend
     networks:
       - andocs-network
+
+  nginx:
+    image: nginx:latest
+    container_name: andocs_nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+      - ./secrets/nginx/nginx-selfsigned.crt:/etc/ssl/certs/nginx-selfsigned.crt
+      - ./secrets/nginx/nginx-selfsigned.key:/etc/ssl/private/nginx-selfsigned.key
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+      - frontend
+    profiles:
+      - dev
+      - default
+    networks:
+      - andocs-network
+    environment:
+      - SSL_CERT_FILE=/etc/ssl/certs/nginx-selfsigned.crt
+      - SSL_KEY_FILE=/etc/ssl/private/nginx-selfsigned.key
+    restart: always
 
 volumes:
   postgres_data:
     driver: local
     name: andocs_backend_postgres_data
 
-  andocs_backend:
-    driver: local
-    name: andocs_backend_backend
-    driver_opts:
-      type: none
-      device: ./services/backend
-      o: bind
-
   static_volume:
     driver: local
-
-  andocs_frontend:
+  
+  media_volume:
     driver: local
-    name: andocs_backend_frontend
-    driver_opts:
-      type: none
-      device: ./services/frontend
-      o: bind
 
 networks:
   andocs-network:

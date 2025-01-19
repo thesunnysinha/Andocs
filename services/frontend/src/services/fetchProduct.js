@@ -5,16 +5,16 @@ export const fetchProduct = createApi({
   reducerPath: "fetchProduct",
   baseQuery: fetchBaseQuery({ baseUrl: `${API_BASE_URL}/api/` }),
   endpoints: (builder) => ({
-    fetchProducts: builder.query({
+    fetchProducts: builder.mutation({
       query: (paramas) => ({
-        url: `products/${paramas.category}/`,
+        url: `products?category=${paramas.category}`,
         method: "GET",
       }),
     }),
 
     fetchProductDetail: builder.query({
       query: (id) => {
-        const url = `product_details/${id}/`;
+        const url = `product/${id}/`;
         return {
           url,
           method: "GET",
@@ -46,7 +46,7 @@ export const fetchProduct = createApi({
 });
 
 export const {
-  useFetchProductsQuery,
+  useFetchProductsMutation,
   useFetchProductDetailQuery,
   useFetchProductCommentQuery,
   useFetchProductRecommendationQuery,

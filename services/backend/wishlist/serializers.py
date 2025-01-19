@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import WishlistProduct,Wishlist
 from product.models import Product
 
+from decimal import Decimal
+
 class UserWishlistProductSerializer(serializers.ModelSerializer):
     product_image = serializers.SerializerMethodField()
     product_title = serializers.SerializerMethodField()
@@ -18,13 +20,14 @@ class UserWishlistProductSerializer(serializers.ModelSerializer):
     
     def get_product_title(self, obj):
         return obj.product.title
-    def get_product_selling_price(self,obj):
-        return obj.product.selling_price
     
-    def get_product_discounted_price(self,obj):
-        return obj.product.discounted_price
+    def get_product_selling_price(self, obj):
+        return str(obj.product.selling_price) if isinstance(obj.product.selling_price, Decimal) else obj.product.selling_price
+    
+    def get_product_discounted_price(self, obj):
+        return str(obj.product.discounted_price) if isinstance(obj.product.discounted_price, Decimal) else obj.product.discounted_price
 
-    def get_product_id(self,obj):
+    def get_product_id(self, obj):
         return obj.product.id
     
 

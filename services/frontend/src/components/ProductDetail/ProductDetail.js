@@ -7,7 +7,7 @@ import { useFetchProductDetailQuery,useFetchProductRecommendationQuery } from ".
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/swiper-bundle.min.css";
-import ProductCard from "../ProductCard/ProductCard";
+import ProductCard from "../Products/ProductCard";
 import { Card as CardBoot } from "react-bootstrap";
 import { getToken } from "../../services/LocalStorageService";
 

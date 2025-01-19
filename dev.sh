@@ -4,4 +4,4 @@
 # docker system prune -a -f
 
 # Build and run the containers
-docker compose up --build
+docker compose --profile dev up 

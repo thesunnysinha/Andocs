@@ -1,4 +1,4 @@
-let env = "prod";
+let env = "docker"; // docker, dev
 let API_BASE_URL;
 let CHANNEL_URL;
 
@@ -8,8 +8,8 @@ if (env === "prod") {
   CHANNEL_URL = `andocs.sunnysinha.space`;
 } else {
     // Local environment
-    API_BASE_URL = `http://127.0.0.1:8000`;
-    CHANNEL_URL = `127.0.0.1:8000`;
+    API_BASE_URL = `https://localhost`;
+    CHANNEL_URL = `localhost`;
 }
 
 
