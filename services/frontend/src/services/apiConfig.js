@@ -1,4 +1,4 @@
-let env = "docker"; // docker, dev
+let env = "prod"; // docker, dev
 let API_BASE_URL;
 let CHANNEL_URL;
 
